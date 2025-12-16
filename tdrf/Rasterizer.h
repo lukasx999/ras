@@ -98,8 +98,13 @@ private:
         aabb.width = std::max({a.x, b.x, c.x});
         aabb.height = std::max({a.y, b.y, c.y});
 
-        assert(aabb.width <= m_framebuffer.get_width());
-        assert(aabb.height <= m_framebuffer.get_height());
+        float width = m_framebuffer.get_width();
+        float height = m_framebuffer.get_height();
+
+        aabb.x = std::clamp(aabb.x, 0.0f, width);
+        aabb.y = std::clamp(aabb.y, 0.0f, height);
+        aabb.width = std::clamp(aabb.width, 0.0f, width);
+        aabb.height = std::clamp(aabb.height, 0.0f, height);
 
         return aabb;
     }
