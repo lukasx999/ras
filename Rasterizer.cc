@@ -35,33 +35,6 @@ void Rasterizer::draw_triangle(Vec a_ndc, Vec b_ndc, Vec c_ndc, VertexShader vs,
 
 void Rasterizer::rasterize_pixel(Vec p, Vec a_vp, Vec b_vp, Vec c_vp, FragmentShader fs) {
 
-    // TODO: fix msaa
-    // int samples = 4;
-    // assert(is_power_of_2(samples));
-    // assert(samples != 2);
-
-    // std::vector<Color> colors;
-    // for (int i = 1; i <= samples; ++i) {
-
-    // switch (i) {
-    //     case 1:
-    //         p.x = p.x - 0.5;
-    //         p.y = p.y - 0.5;
-    //         break;
-    //     case 2:
-    //         p.x = p.x + 0.5;
-    //         p.y = p.y - 0.5;
-    //         break;
-    //     case 3:
-    //         p.x = p.x - 0.5;
-    //         p.y = p.y + 0.5;
-    //         break;
-    //     case 4:
-    //         p.x = p.x + 0.5;
-    //         p.y = p.y + 0.5;
-    //         break;
-    // }
-
     float abc = triangle_signed_area(a_vp, b_vp, c_vp);
     float abp = triangle_signed_area(a_vp, b_vp, p);
     float bcp = triangle_signed_area(b_vp, c_vp, p);
@@ -113,30 +86,10 @@ void Rasterizer::rasterize_pixel(Vec p, Vec a_vp, Vec b_vp, Vec c_vp, FragmentSh
         Color result = blend_colors(color, stored_color);
         m_framebuffer.get_color_buffer().write(p.x, p.y, color_debug);
         m_framebuffer.get_depth_buffer().write(p.x, p.y, depth);
-        // colors.push_back(result);
 
     } else if (show_aabb) {
         m_framebuffer.get_color_buffer().write(p.x, p.y, Color::red());
 
     }
-    // else {
-    //     colors.push_back(Color(0x0, 0x0, 0x0, 0x0));
-    // }
-
-    // // cant use color struct for summing up color values, due to integer overflow
-    // int r = 0;
-    // int g = 0;
-    // int b = 0;
-    // int a = 0;
-    //
-    // for (auto& color : colors) {
-    //     r += color.r;
-    //     g += color.g;
-    //     b += color.b;
-    //     a += color.a;
-    // }
-    //
-    // Color color(r/samples, g/samples, b/samples, a/samples);
-    // m_color_buffer.write(p.x, p.y, color);
 
 }

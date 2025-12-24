@@ -6,11 +6,15 @@
 #include <array>
 #include <cassert>
 
+#include "Rasterizer.h"
+#include "Framebuffer.h"
+#include "Vec.h"
+#include "Mat.h"
+#include "math.h"
+
 namespace rl {
 #include <raylib.h>
 }
-
-#include "tdrf/tdrf.h"
 
 namespace {
 
@@ -289,6 +293,22 @@ int main() {
 
     Framebuffer fb(1600, 900);
     Rasterizer ras(fb);
+
+    auto obj_vertices = load_obj("./assets/teapot.obj");
+
+    auto vs = [](Vec p) {
+        float s = 0.2;
+        auto scale = Mat::scale({s, s, s, 1});
+        auto angle = fmodf(30, 360);
+        auto rot = Mat::rotate(Vec {1.0f, 1.0f, 0.0f, 1.0f}, deg_to_rad(angle));
+        return rot * scale * p;
+    };
+
+    auto fs = [](Vec) {
+        return Color::blue();
+    };
+
+    ras.render_vertex_buffer(obj_vertices, vs, fs);
 
     write_to_ppm("out.ppm", fb);
 

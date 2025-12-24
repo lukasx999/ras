@@ -1,3 +1,6 @@
+run: build
+    ./build/tdrf
+
 build: configure
     cmake --build build
 

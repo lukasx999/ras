@@ -6,5 +6,6 @@ set(CMAKE_COLOR_DIAGNOSTICS ON)
 
 project(TDRF)
 
-add_library(tdrf Rasterizer.cc)
+add_executable(tdrf main.cc Rasterizer.cc)
 target_compile_options(tdrf PRIVATE -Wall -Wextra -O3 -ggdb)
+target_link_libraries(tdrf raylib)
