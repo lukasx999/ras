@@ -10,4 +10,4 @@ Three Dimensional Rendering Facility
 
 ## Showcase
 
-[Utah Teapot](./teapot.png)
+![Utah Teapot](./teapot.png)
