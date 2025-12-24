@@ -182,11 +182,12 @@ void demo_obj(Rasterizer& ras, const char* filename) {
     auto obj_vertices = load_obj(filename);
 
     auto vs = [](Vec p) {
-        float s = 1.2;
+        float s = 0.2;
         auto scale = Mat::scale({s, s, s, 1});
-        auto angle = fmodf((rl::GetTime() * 30), 360);
-        auto rot = Mat::rotate(Vec {1.0f, 1.0f, 0.0f, 1.0f}, deg_to_rad(angle));
-        return rot * scale * p;
+        // auto angle = fmodf((rl::GetTime() * 30), 360);
+        // auto rot = Mat::rotate(Vec {1.0f, 1.0f, 0.0f, 1.0f}, deg_to_rad(angle));
+        // return rot * scale * p;
+        return scale * p;
     };
 
     auto fs = [](Vec) {
