@@ -184,10 +184,9 @@ void demo_obj(Rasterizer& ras, const char* filename) {
     auto vs = [](Vec p) {
         float s = 0.2;
         auto scale = Mat::scale({s, s, s, 1});
-        // auto angle = fmodf((rl::GetTime() * 30), 360);
-        // auto rot = Mat::rotate(Vec {1.0f, 1.0f, 0.0f, 1.0f}, deg_to_rad(angle));
-        // return rot * scale * p;
-        return scale * p;
+        auto angle = fmodf((rl::GetTime() * 30), 360);
+        auto rot = Mat::rotate(Vec {1.0f, 1.0f, 0.0f, 1.0f}, deg_to_rad(angle));
+        return rot * scale * p;
     };
 
     auto fs = [](Vec) {
@@ -292,29 +291,15 @@ int main() {
 
     test();
 
-    Framebuffer fb(1600, 900);
+    int width = 900;
+    int height = width;
+    Framebuffer fb(width, height);
     Rasterizer ras(fb);
 
-    auto obj_vertices = load_obj("./assets/teapot.obj");
-
-    auto vs = [](Vec p) {
-        float s = 0.2;
-        auto scale = Mat::scale({s, s, s, 1});
-        auto angle = fmodf(30, 360);
-        auto rot = Mat::rotate(Vec {1.0f, 1.0f, 0.0f, 1.0f}, deg_to_rad(angle));
-        return rot * scale * p;
-    };
-
-    auto fs = [](Vec) {
-        return Color::blue();
-    };
-
-    ras.render_vertex_buffer(obj_vertices, vs, fs);
-
-    write_to_ppm("out.ppm", fb);
+    // write_to_ppm("out.ppm", fb);
 
     rl::SetConfigFlags(rl::FLAG_WINDOW_RESIZABLE);
-    rl::InitWindow(1600, 900, "tdrf");
+    rl::InitWindow(width, height, "tdrf");
 
     while (!rl::WindowShouldClose()) {
         rl::BeginDrawing();
@@ -325,9 +310,9 @@ int main() {
         // TODO: look at matrix
         // TODO: projection matrix (ortho/persp)
 
-        demo_obj(ras, "assets/teapot.obj");
+        // demo_obj(ras, "assets/teapot.obj");
         // demo_triangle(ras);
-        // demo_cube(ras);
+        demo_cube(ras);
 
         draw_framebuffer_raylib(fb);
 
